@@ -1,0 +1,159 @@
+<div class="d-flex" id="wrapper">
+
+    <!-- Sidebar -->
+  
+    <div class="sidebar-color " id="sidebar-wrapper">
+      <a href="#" class="navbar-brand text-white d-block mx-auto text-center pt-3 ">LACUS</a>
+      <a href="#" class="text-white d-block mx-auto text-center bottom-border pb-3 mb-4 "><% nameUser %></a>
+  
+      <div class="list-group list-group-flush">
+        <li class="nav-item"><a href="/dashboard" class="nav-link text-white p-3 mb-2 ml-5 sidebar-link"><i
+              class="fas fa-home text-light fa-lg mr-3"></i>Dashboard</a></li>
+        <li class="nav-item"><a href="/send" class="nav-link text-white p-3 mb-2 ml-5 sidebar-link"><i
+              class="fas fa-plus text-light fa-lg mr-3"></i>Spedisci</a></li>
+        <li class="nav-item"><a href="/deliver" class="nav-link text-white p-3 mb-2 ml-5 current"><i
+              class="fas fa-shipping-fast text-light fa-lg mr-3"></i>Consegna</a></li>
+        <li class="nav-item"><a href="/logout" class="nav-link text-white p-3 mb-2 ml-5 sidebar-link-logout"><i
+              class="fas fa-sign-out-alt text-light fa-lg mr-3"></i>Logout</a></li>
+  
+      </div>
+    </div>
+  
+    <!-- /#sidebar-wrapper -->
+  
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+  
+      <nav class="navbar-color navbar navbar-expand-lg navbar-light">
+        <button class="btn btn-menu text-light" id="menu-toggle">MENU</button>
+      </nav>  
+      <div class="container-fluid">
+        <form name="deliveryDetail" action="/carrierAccept" method="POST" onsubmit="return checkFields()">
+          <div class="input-shape p-5" style="margin-top: 30px;">
+              <h3 class="input-shape-section-title">Dettagli della spedizione</h3>
+              <input type="hidden" id="deliveryCode" name="deliveryCode" value="<%=delivery[0]._id%>"/>
+            <div class="row">
+              <div class="col-md-6">
+                  <h4 class="input-shape-section-title mt-5">Ritiro e consegna</h4>
+                  <div class="form__group field">
+                    <span class="form-group-field">Da: <%= delivery[0].startPlace %></span><br>
+                    <span class="form-group-field">A: <%= delivery[0].endPlace %></span>
+                  </div>
+              </div>
+              <div class="col-md-6">
+                <h4 class="input-shape-section-title mt-5">Specifica spedizione</h4>
+                <div class="form__group field">
+                  <span class="form-group-field">Data ritiro: <%=delivery[0].date%></span><br>
+                  <input type="hidden" id="date" name="date" value="<%=delivery[0].date%>"/>
+                  <span class="form-group-field">Distanza: <%=delivery[0].distance%> km</span><br>
+                  <span class="form-group-field">Costo: € <%=delivery[0].price%></span><br>
+                  <span class="form-group-field">Dimensione: <%=delivery[0].height%> cm x <%=delivery[0].width%> cm x <%=delivery[0].depth%> cm</span>
+                  <span class="form-group-field">Tipologia pacco: <%=delivery[0].type%></span>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6 mt-5">
+                <h4 class="input-shape-section-title">Dati pagamento</h4>
+                <form>
+                  <div class="row">
+                    <div class="form__group field col-12">
+                      <input class="form__field" placeholder="Proprietario" name="owner" id="owner" type="text" required/>
+                      <label for="owner" class="form__label">Proprietario</label>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form__group field col-12">
+                      <input class="form__field" placeholder="---- ---- ---- ----" size="19" name="number" id="number" type="tel" required/>
+                      <label for="number" class="form__label">Numero carta</label>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form__group field col-4">
+                      <img src="/img/visa.jpg" id="visa">
+                    </div>
+                    <div class="form__group field col-4">
+                      <img src="/img/mastercard.jpg" id="mastercard">
+                    </div>
+                    <div class="form__group field col-4">
+                      <img src="/img/amex.jpg" id="amex">
+                    </div>
+                  </div>
+                </form>
+              </div>
+              <div class="col-md-6 mt-5">
+                <h4 class="input-shape-section-title">Informazioni aggiuntive</h4>
+                <div class="row">
+                  <div class="form__group field" style="padding-left: 15px;
+                  padding-right: 15px; padding-bottom: 10px;">
+                    <input type="date" class="form__field" placeholder="GG/MM/AA" name="expectedArrival" id='expectedArrival' value="<%= typeof expectedArrival != 'undefined' ? expectedArrival : '' %>" required />
+                    <label for="date" class="form__label">Ritiro previsto</label>
+                  </div>
+                </div>
+                
+                <div class="alert alert-warning" role="alert">
+                  <p style="font-size: 9px;">La data richiesta serve per informare le parti sull'arrivo previsto della spedizione.
+                  <strong>Attenzione è possibile che la proposta dell'arrivo previsto venga rifiutata.</strong></p>
+                </div>              
+              </div>
+            </div>
+            <div class="row mt-5">
+              <div class="col">
+                <div class="alert alert-warning" role="alert">
+                  <p style="font-size: 9px;">Attenzione nel caso in cui la data dell'arrivo previsto viene accettata la spedizione verrà direttamente affidata a voi!</p>
+                </div>
+              </div>
+            </div>                   
+            
+            <div class="spedisci-btn-wrapper pt-1">
+              <button type="submit" class="btn spedisci-btn text-light" id="spedisci-btn">CONFERMA SPEZIONE</button> 
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  
+  <!-- /#page-content-wrapper -->
+  
+  </div>
+  <!-- /#wrapper -->
+  <!-- Menu Toggle Script -->
+  <script>
+    $("#menu-toggle").click(function (e) {
+      e.preventDefault();
+      $("#wrapper").toggleClass("toggled");
+    });
+
+    function checkFields(){
+      let errors = [];
+      var owner = document.forms["deliveryDetail"]["owner"].value;
+      var number = document.forms["deliveryDetail"]["number"].value;
+      var arrival = document.forms["deliveryDetail"]["date"].value;
+      var expectedArrival = document.forms["deliveryDetail"]["expectedArrival"].value;      
+      console.log(owner)
+      console.log(number)
+
+      //regex
+      var ownerRegex = /[A-Z]{0,1}[a-z]{3,10}/;
+      var numberRegex1 = /[0-9]{16}/;
+      var numberRegex2 = /([0-9]{4} ){3}[0-9]{4}/;
+
+      //regex match
+      if(owner.match(ownerRegex)){
+          if(number.match(numberRegex1)||number.match(numberRegex2)){
+            if(expectedArrival >= arrival ){
+              return true;
+            }else{
+              alert("La data deve essere almeno uguale al giorno del ritiro");
+              return false;
+            } 
+          }else{
+            alert("Il numero della carta è nel formato errato");
+            return false;
+          }
+      }else{
+        alert("Il nome del proprietario è nel formato errato");
+        return false;
+      }
+    }
+  </script>

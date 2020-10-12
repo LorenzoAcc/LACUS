@@ -1,0 +1,169 @@
+<div class="limiter">
+    <div class="container-login100">
+        <div class="registration-wrap registration-shadow">
+            <div class="registration-pic js-tilt" data-tilt>
+                <img src="/img/A4.PNG" alt="IMG">
+            </div>
+            
+            <form class="login100-form validate-form" action="/register" method="POST">
+                <div class="login-slogan">
+                    <span class="login100-form-title">
+                        Registrati subito
+                    </span>
+                    <span class="slogantxt">
+                        Crea un nuovo account in pocchissimi passi ed effettua subito la tua spedizione.
+                    </span>
+                    <div>
+                        <%- include ('./partials/messages') %>
+                    </div>  
+                </div>
+                <div class="wrap-input100 validate-input" data-validate = "Non sono accettati caratteri speciali">
+                    <input class="input100 name" id="name" type="text" name="name" placeholder="Name" value="<%= typeof name != 'undefined' ? name : '' %>">
+                    <span class="focus-input100"></span>
+                    <span class="symbol-input100">
+                        <i class="fa fa-male" aria-hidden="true"></i>
+                    </span>
+                </div><div class="wrap-input100 validate-input" data-validate = "Non sono accettati caratteri speciali">
+                    <input class="input100 surname" id="surname" type="text" name="surname" placeholder="Surname" value="<%= typeof surname != 'undefined' ? surname : '' %>">
+                    <span class="focus-input100"></span>
+                    <span class="symbol-input100">
+                        <i class="far fa-user" aria-hidden="true"></i>
+                    </span>
+                </div>
+                <div class="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
+                    <input class="input100 email" id="email" type="email" name="email" placeholder="Email" value="<%= typeof email != 'undefined' ? email : '' %>">
+                    <span class="focus-input100"></span>
+                    <span class="symbol-input100">
+                        <i class="fa fa-envelope" aria-hidden="true"></i>
+                    </span>
+                </div>
+
+                <div class="wrap-input100 validate-input" data-validate = "Password is required">
+                    <input class="input100 password" id="password" type="password" name="password" placeholder="Password" value="<%= typeof password != 'undefined' ? password : '' %>">
+                    <span class="focus-input100"></span>
+                    <span class="symbol-input100">
+                        <i class="fa fa-lock" aria-hidden="true"></i>
+                    </span>
+                </div>
+                <div class="wrap-input100 validate-input" data-validate = "Password is required">
+                    <input class="input100 password2" id="password2" type="password" name="password2" placeholder="Ripeti la password" value="<%= typeof password2 != 'undefined' ? password2 : '' %>">
+                    <span class="focus-input100"></span>
+                    <span class="symbol-input100">
+                        <i class="fa fa-lock" aria-hidden="true"></i>
+                    </span>
+                </div>
+                
+                <div class="container-login100-form-btn">
+                    <button  class="login100-form-btn" type="submit" name="register">
+                        Conferma
+                    </button>
+                </div>
+                <div class="text-center p-t-10">
+                    <a class="txt2" href="/login">
+                        <i class="fas fa-long-arrow-alt-left m-l-5" aria-hidden="true"></i>
+                        Torna indietro
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    
+    $(document).ready(function() {
+    
+    setTimeout(function(){        
+        $('body').addClass('loaded');
+        $('h1').css('color','#222222');
+        $('#loader').remove();
+        
+    }, 2000);
+    
+    
+    });
+    
+    
+    /*	JS FOR DESC-PAGE BG GRADIENT*/
+    
+    var colors = new Array(
+    [15, 95, 129],
+    [15, 86, 129],
+    [15, 76, 129],
+    [15, 67, 129],
+    [15, 57, 129],
+    [15, 48, 129]);
+    
+    var step = 0;
+    //color table indices for:
+    // current color left
+    // next color left
+    // current color right
+    // next color right
+    var colorIndices = [0,1,2,3];
+    
+    //transition speed
+    var gradientSpeed = 0.002;
+    
+    function updateGradient()
+    {
+    
+    if ( $===undefined ) return;
+    
+    var c0_0 = colors[colorIndices[0]];
+    var c0_1 = colors[colorIndices[1]];
+    var c1_0 = colors[colorIndices[2]];
+    var c1_1 = colors[colorIndices[3]];
+    
+    var istep = 1 - step;
+    var r1 = Math.round(istep * c0_0[0] + step * c0_1[0]);
+    var g1 = Math.round(istep * c0_0[1] + step * c0_1[1]);
+    var b1 = Math.round(istep * c0_0[2] + step * c0_1[2]);
+    var color1 = "rgb("+r1+","+g1+","+b1+")";
+    
+    var r2 = Math.round(istep * c1_0[0] + step * c1_1[0]);
+    var g2 = Math.round(istep * c1_0[1] + step * c1_1[1]);
+    var b2 = Math.round(istep * c1_0[2] + step * c1_1[2]);
+    var color2 = "rgb("+r2+","+g2+","+b2+")";
+    
+    $('.container-login100' ).css({
+        background: "-webkit-gradient(linear, left top, right top, from("+color1+"), to("+color2+"))"}).css({
+        background: "-moz-linear-gradient(left, "+color1+" 0%, "+color2+" 100%)"});
+    
+    step += gradientSpeed;
+    if ( step >= 1 )
+    {
+        step %= 1;
+        colorIndices[0] = colorIndices[1];
+        colorIndices[2] = colorIndices[3];
+    
+        //pick two new target color indices
+        //do not pick the same as the current one
+        colorIndices[1] = ( colorIndices[1] + Math.floor( 1 + Math.random() * (colors.length - 1))) % colors.length;
+        colorIndices[3] = ( colorIndices[3] + Math.floor( 1 + Math.random() * (colors.length - 1))) % colors.length;
+    
+    }
+    $('.login100-form-btn').css({
+        background: "-webkit-gradient(linear, left top, right top, from("+color1+"), to("+color2+"))"}).css({
+        background: "-moz-linear-gradient(left, "+color1+" 0%, "+color2+" 100%)"});
+    
+    step += gradientSpeed;
+    if ( step >= 1 )
+    {
+        step %= 1;
+        colorIndices[0] = colorIndices[1];
+        colorIndices[2] = colorIndices[3];
+    
+        //pick two new target color indices
+        //do not pick the same as the current one
+        colorIndices[1] = ( colorIndices[1] + Math.floor( 1 + Math.random() * (colors.length - 1))) % colors.length;
+        colorIndices[3] = ( colorIndices[3] + Math.floor( 1 + Math.random() * (colors.length - 1))) % colors.length;
+    
+    }
+    
+    
+    }
+    
+    
+    setInterval(updateGradient,0.5);
+    
+    </script>

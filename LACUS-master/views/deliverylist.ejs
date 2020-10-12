@@ -1,0 +1,119 @@
+<div class="d-flex" id="wrapper">
+
+  <!-- Sidebar -->
+
+  <div class="sidebar-color " id="sidebar-wrapper">
+    <a href="#" class="navbar-brand text-white d-block mx-auto text-center pt-3 ">LACUS</a>
+    <a href="#" class="text-white d-block mx-auto text-center bottom-border pb-3 mb-4 "><%= nameUser.charAt(0).toUpperCase() + nameUser.slice(1) %></a>
+    <div class="list-group list-group-flush">
+      <li class="nav-item"><a href="/dashboard" class="nav-link text-white p-3 mb-2 ml-5 sidebar-link"><i
+            class="fas fa-home text-light fa-lg mr-3"></i>Dashboard</a></li>
+      <li class="nav-item"><a href="/send" class="nav-link text-white p-3 mb-2 ml-5 sidebar-link"><i
+            class="fas fa-plus text-light fa-lg mr-3"></i>Spedisci</a></li>
+      <li class="nav-item"><a href="/deliver" class="nav-link text-white p-3 mb-2 ml-5 current"><i
+            class="fas fa-search text-light fa-lg mr-3"></i>Consegna</a></li>
+      <li class="nav-item"><a href="/logout" class="nav-link text-white p-3 mb-2 ml-5 sidebar-link-logout"><i
+            class="fas fa-sign-out-alt text-light fa-lg mr-3"></i>Logout</a></li>
+
+    </div>
+  </div>
+
+  <!-- /#sidebar-wrapper -->
+
+  <!-- Page Content -->
+  <div id="page-content-wrapper">
+    <nav class="navbar-color navbar navbar-expand-lg navbar-light">
+      <button class="btn btn-menu text-light" id="menu-toggle">MENU</button>
+    </nav>
+
+    <section>
+      <div class="container-fluid search-deliveries-table">
+        <div class="row mb-5">
+          <div class="col-xl-12 col-lg-12 col-md-12 ml-auto">
+            <div class="row align-items-center">
+              <div class="col-xl-12 col-lg-12 col-sm-12 col-12 mb-xl-0">
+                <h3 class="text-muted text-center mb-3 table-title">Lista spedizioni</h3>
+                <div class="delivery-list-shape">
+                  <div class="container-fluid">
+                    <div class="row">
+                      <div class="col-xl-6 col-12 text-center p-2">
+                        <i class="fas fa-map-pin text-light mr-3"></i><span>Da: <%=start%></span>
+                      </div>
+                      <div class="col-xl-6 col-12 text-center p-2">
+                        <i class="fas fa-flag-checkered text-light mr-3"></i><span>A: <%=end%></span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div style="text-align: center;">
+                  <%- include ('./partials/messages') %>
+                </div>
+                <div class="row align-items-center">
+                  <div class="mb-3" style="width: 100%;">
+                    <div class="row">
+                      <% deliveryList.forEach(function(delivery) { %>
+                      <%delivery%>
+                      <div class="px-1 col-md-6 col-sm-12">
+                          <input type="hidden" name="deliveryCode" id="deliveryCode" value="<%= delivery._id%>" />
+                          <div class="delivery-card">
+                            <div class="delivery-card-box text-white">
+                              <form method="POST">
+                                <input type="hidden" name="deliveryCode" id="deliveryCode" value="<%= delivery._id%>" />
+                              <!--Da-->
+                              <div class="row mt-2 ml-2">
+                                <strong class="form__field pac-target-input" style="width: 92%; letter-spacing: 2px;">Partenza</strong><%= delivery.startPlace%>
+                              </div>
+                              <!--A-->
+                              <div class="row mt-2 ml-2">
+                                <strong class="form__field pac-target-input" style="width: 92%; letter-spacing: 2px;">Arrivo</strong><%= delivery.endPlace%>
+                              </div>
+                              <!--Prezzo-->
+                              <div class="row mt-2 ml-2">
+                                <strong class="form__field pac-target-input" style="width: 92%; letter-spacing: 2px;">Importo Spedizione</strong><%= delivery.price%> €
+                              </div>
+                              <!--Vedi traditto-->
+                              <div class="row mt-2 ml-2">
+                                <strong class="form__field pac-target-input" style="width: 92%; letter-spacing: 2px;">Vedi tragitto</strong>
+                                <div class="mt-2" style="display: flex; justify-content: center;">  
+                                  <a class="btn" href="https://www.google.com/maps/dir/?api=1&origin=<%=delivery.startPlace%>&destination=<%=delivery.endPlace%>&travelmode=driving">
+                                    <i class="fas fa-road fa-lg" style="color: white;"></i>
+                                    </a>
+                                </div>
+                              </div>
+                              
+                              <!--Accetta-->
+                              <div class="row mt-2 ml-2">
+                                <strong class="form__field pac-target-input" style="width: 92%; letter-spacing: 2px;">Accetta</strong>
+                                <div class="pl-2 mt-2" style="display: flex; justify-content: center;">  
+                                  <button formaction="/getDetail" type="submit">
+                                    <i class="fas fa-check fa-lg mr-2" style="color: white;"></i>
+                                  </button>
+                                </div>
+                              </div>
+                            </form>                    
+                            </div>
+                          </div>
+                      </div>
+                      <% }); %>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- /#page-content-wrapper -->
+
+</div>
+<!-- /#wrapper -->
+
+<!-- Menu Toggle Script -->
+<script>
+  $("#menu-toggle").click(function (e) {
+    e.preventDefault();
+    $("#wrapper").toggleClass("toggled");
+  });
+</script>

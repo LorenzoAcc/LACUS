@@ -1,0 +1,255 @@
+<div class="d-flex" id="wrapper">
+
+  <!-- Sidebar -->
+
+  <div class="sidebar-color " id="sidebar-wrapper">
+    <a href="#" class="navbar-brand text-white d-block mx-auto text-center pt-3 ">LACUS</a>
+    <span href="#"class="text-white d-block mx-auto text-center bottom-border pb-3 mb-4 "><%= nameUser.charAt(0).toUpperCase() + nameUser.slice(1) %></span>
+    <div class="list-group list-group-flush">
+      <li class="nav-item"><a href="/dashboard" class="nav-link text-white p-3 mb-2 ml-5 sidebar-link"><i
+            class="fas fa-home text-light fa-lg mr-3"></i>Dashboard</a></li>
+      <li class="nav-item"><a href="/send" class="nav-link text-white p-3 mb-2 ml-5 sidebar-link"><i
+            class="fas fa-plus text-light fa-lg mr-3"></i>Spedisci</a></li>
+      <li class="nav-item"><a href="/deliver" class="nav-link text-white p-3 mb-2 ml-5 current"><i
+            class="fas fa-shipping-fast text-light fa-lg mr-3"></i>Consegna</a></li>
+      <li class="nav-item"><a href="/logout" class="nav-link text-white p-3 mb-2 ml-5 sidebar-link-logout"><i
+            class="fas fa-sign-out-alt text-light fa-lg mr-3"></i>Logout</a></li>
+
+    </div>
+  </div>
+
+  <!-- /#sidebar-wrapper -->
+
+  <!-- Page Content -->
+  <div id="page-content-wrapper">
+
+    <nav class="navbar-color navbar navbar-expand-lg navbar-light">
+      <button class="btn btn-menu text-light" id="menu-toggle">MENU</button>
+
+
+    </nav>
+
+
+    <div class="container-fluid">
+      <div class="input-shape-delivery">
+        <form name="deliver" action="/deliver" method="POST" onsubmit="return checkFields()">
+          <div class="container-fluid ml-20">
+            <div class="row">
+              <div class="col-xl-12 col-lg-12 col-md-12 col-12 mt-0">
+                <div class="form__group field">
+                  <input type="input" class="form__field" placeholder="Città partenza" name="start" id='start'
+                    value="<%= typeof start != 'undefined' ? start : '' %>" required />
+                  <label for="start" class="form__label">Città partenza</label>
+                  <input type="hidden" id="start_loc_lat" name="start_loc_lat" value="<%= typeof start_loc_lat != 'undefined' ? start_loc_lat : '' %>" />
+                  <input type="hidden" id="start_loc_long" name="start_loc_long" value="<%= typeof start_loc_long != 'undefined' ? start_loc_long : '' %>" />
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xl-12 col-lg-12 col-md-12 col-12 mt-0">
+                <div class="form__group field">
+                  <input type="input" class="form__field" placeholder="Città arrivo" name="end" id='end'
+                    value="<%= typeof end != 'undefined' ? end : '' %>" required />
+                  <label for="end" class="form__label">Città arrivo</label>
+                  <input type="hidden" id="end_loc_lat" name="end_loc_lat" value="<%= typeof end_loc_lat != 'undefined' ? end_loc_lat : '' %>"/>
+                  <input type="hidden" id="end_loc_long" name="end_loc_long" value="<%= typeof end_loc_long != 'undefined' ? end_loc_long : '' %>" />
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xl-12 col-lg-12 col-md-12 col-12 mt-0">
+                <div class="form__group field">
+                  <input type="date" class="form__field" placeholder="Data GG/MM/AAAA" name="date" id='date'
+                    value="<%= typeof date != 'undefined' ? date : '' %>" required />
+                  <label for="data" class="form__label">Data GG/MM/AAAA</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <script>
+            var start = 'start';
+            var end = 'end';
+            $(document).ready(function () {
+                var autocomplete1;
+                autocomplete1 = new google.maps.places.Autocomplete((document.getElementById(start)), {
+                    types: ['(cities)'],
+                    componentRestrictions: {country: 'it'}
+                });
+              
+                google.maps.event.addListener(autocomplete1, 'place_changed', function () {
+                    var near_place1 = autocomplete1.getPlace();
+                    document.getElementById('start_loc_lat').value = near_place1.geometry.location.lat();
+                    document.getElementById('start_loc_long').value = near_place1.geometry.location.lng();
+                });
+
+                var autocomplete2;
+                autocomplete2 = new google.maps.places.Autocomplete((document.getElementById(end)), {
+                    types: ['(cities)'],
+                    componentRestrictions: {country: 'it'}
+                });
+              
+                google.maps.event.addListener(autocomplete2, 'place_changed', function () {
+                    var near_place2 = autocomplete2.getPlace();
+                    document.getElementById('end_loc_lat').value = near_place2.geometry.location.lat();
+                    document.getElementById('end_loc_long').value = near_place2.geometry.location.lng();
+                });
+            });
+
+            function checkFields(){
+              let errors = [];
+              var date = document.forms["deliver"]["date"].value;
+              if(!dateValidation(date)) {
+                errors.push("Data non valida!");
+                $('.warning-msg').show();
+                document.getElementById("alert-msg").innerHTML=errors;
+                return false;
+              }
+              return true;
+              
+              
+            }
+          </script>
+          <div class="consegna-message">
+            <%- include ('./partials/messages') %>
+          </div>
+          <!--JS INPUT FILED ERRORS-->
+          <div class="warning-msg" id="msg-warning" style="display: none;">
+            <div class="alert alert-warning   alert-dismissible fade show" role="alert">
+              <p id="alert-msg"></p>
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </div>
+          </div>  
+          <div class="cerca-btn-wrapper">
+            <button type="submit " class="btn cerca-btn text-light" id="cerca-btn">CERCA
+              <i class="fas fa-shipping-fast fa-lg pl-1 text-light consegna-icon"></i>
+            </button>
+          </div>
+
+        </form>
+      </div>
+      <div class="row align-items-center">
+        <div class="mb-3" style="width: 100%;">
+          <h3 class="text-muted text-center mt-5 table-title">Spedizioni da Ritirare</h3>
+          <div class="row">
+            <% let counter6 = 0; %>
+            <% deliveryLists.forEach(function(delivery) { %>
+            <% if(delivery.status=='Arrivo previsto accettato'){ %>
+            <% counter6++;%>
+            <div class="px-1 col-md-6 col-sm-12">
+              <form method="POST">
+                <input type="hidden" name="deliveryCode" id="deliveryCode" value="<%= delivery._id%>" />
+                <div class="delivery-card" style="height: 450px;">
+                  <div class="delivery-card-box text-white">
+                    <div class="row mt-2 ml-2">
+                      <strong class="form__field pac-target-input" style="width: 92%; letter-spacing: 2px;">Partenza</strong> <%= delivery.startPlace%>
+                    </div>
+                    <div class="row mt-2 ml-2">
+                      <strong class="form__field pac-target-input" style="width: 92%; letter-spacing: 2px;">Arrivo</strong> <%= delivery.endPlace%>
+                    </div>
+                    <div class="row mt-2 ml-2">
+                      <strong class="form__field pac-target-input" style="width: 92%; letter-spacing: 2px;">Mittente</strong> <%= delivery.nameSender.charAt(0).toUpperCase() + delivery.nameSender.slice(1) + " " +delivery.surnameSender.charAt(0).toUpperCase() + delivery.surnameSender.slice(1)%>
+                    </div>
+                    <div class="row mt-2 ml-2">
+                      <input type="hidden" name="date" id="date" value="<%= delivery.date%>" />
+                      <strong class="form__field pac-target-input" style="width: 92%; letter-spacing: 2px;">Data ritiro</strong> <%= delivery.date%>
+                    </div>
+                    <div class="row mt-2 ml-2">
+                      <strong class="form__field pac-target-input" style="width: 92%; letter-spacing: 2px;">Ritirato / Annulla ritiro</strong>
+                      <div class="mt-2" style="display: flex; justify-content: center;">
+                        <button type="submit" formaction="/confirmWithdrawal"><i
+                          class="fas fa-check fa-lg mr-2" style="color: white;"></i></button>
+                      <button type="submit" formaction="/cancelWithdrawal"><i class="fas fa-trash fa-lg"
+                          style="color:#adb5bd;"></i></button>
+                      </div>
+                  </div>
+
+                  <div class="row mt-2 ml-2">
+                    <strong class="form__field pac-target-input" style="width: 92%; letter-spacing: 2px;">Vedi tragitto</strong>
+                    <div class="mt-2" style="display: flex; justify-content: center;">  
+                      <a class="btn" href="https://www.google.com/maps/dir/?api=1&origin=<%=delivery.startPlace%>&destination=<%=delivery.endPlace%>&travelmode=driving">
+                        <i class="fas fa-road fa-lg" style="color: white;"></i>
+                        </a>
+                    </div>
+                  </div>
+                  
+                  </div>
+                </div>
+              </form>
+            </div>
+            
+            <% }}); %>
+          </div>
+          <% if(counter6==0){  %>
+            <div class="col-12">
+              <div class="alert alert-warning" role="alert" style="text-align: center;">
+                <span>Non hai nessuna spedizione da ritirare!</span>
+              </div>
+            </div>                 
+          <% } %>
+          </div>
+      </div>
+      <div class="row align-items-center">
+        <div class="mb-3" style="width: 100%;">
+          <h3 class="text-muted text-center mt-5 table-title">Spedizioni da consegnare</h3>
+          <div class="row">
+            <% let counter7 = 0; %>
+            <% deliveryLists.forEach(function(delivery) { %>
+            <% if(delivery.status=='Ritirata'){ %>
+            <% counter7++;%>
+            <div class="px-1 col-md-6 col-sm-12">
+                <div class="delivery-card">
+                  <div class="delivery-card-box text-white">
+                    <div class="row mt-2 ml-2">
+                      <strong class="form__field pac-target-input" style="width: 92%; letter-spacing: 2px;">Partenza</strong> <%= delivery.startPlace%>
+                    </div>
+                    <div class="row mt-2 ml-2">
+                      <strong class="form__field pac-target-input" style="width: 92%; letter-spacing: 2px;">Arrivo</strong> <%= delivery.endPlace%>
+                    </div>
+                    <div class="row mt-2 ml-2">
+                      <input type="hidden" name="date" id="date" value="<%= delivery.date%>" />
+                      <strong class="form__field pac-target-input" style="width: 92%; letter-spacing: 2px;">Data consegna</strong> <%= delivery.arrivoPrevisto%>
+                    </div>
+                    <div class="row mt-2 ml-2">
+                      <strong class="form__field pac-target-input" style="width: 92%; letter-spacing: 2px;">Destinatario</strong> <%= delivery.nameRecipient.charAt(0).toUpperCase() + delivery.nameRecipient.slice(1) + " " +delivery.surnameRecipient.charAt(0).toUpperCase() + delivery.surnameRecipient.slice(1)%>
+                    </div>
+                  <div class="row mt-2 ml-2">
+                    <strong class="form__field pac-target-input" style="width: 92%; letter-spacing: 2px;">Vedi tragitto</strong>
+                    <div class="mt-2" style="display: flex; justify-content: center;">  
+                      <a class="btn" href="https://www.google.com/maps/dir/?api=1&origin=<%=delivery.startPlace%>&destination=<%=delivery.endPlace%>&travelmode=driving">
+                        <i class="fas fa-road fa-lg" style="color: white;"></i>
+                        </a>
+                    </div>
+                  </div>
+                  </div>
+                </div>
+            </div>
+            <% }}); %>
+          </div>
+          <% if(counter7==0){  %>
+            <div class="col-12">
+              <div class="alert alert-warning" role="alert" style="text-align: center;">
+                <span>Non hai nessuna spedizione da trasportare!</span>
+              </div>
+            </div>                 
+          <% } %>
+          </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- /#page-content-wrapper -->
+
+</div>
+<!-- /#wrapper -->
+
+
+
+<!-- Menu Toggle  -->
+<script>
+  $("#menu-toggle").click(function (e) {
+    e.preventDefault();
+    $("#wrapper").toggleClass("toggled");
+  });
+</script>

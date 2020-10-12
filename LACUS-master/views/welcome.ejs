@@ -1,0 +1,134 @@
+<div class="welcome-page-limiter">
+    <div class="welcome-page-container">
+        <div class="description-wrapper">
+            <div class="description-pic-container js-tilt">
+                <img src="/img/icons/icon512x512.PNG" alt="IMG">
+            </div>
+            <div class="description-messages-container">
+                <div class="lacus-name"><h1>LACUS</h1></div>
+                <div class="message first-message">
+                    <h1>Spedisci!</h1>
+                    <p>Spedire ad amici e parenti con Lacus è facilissimo, senza ricorrere ai costi dei corrieri ufficiali! </p>
+                </div>
+                <div class="message second-message">
+                    <h1>Consegna!</h1>
+                    <p>Cerca le spedizioni in base ai tuoi viaggi programmati e consegna i pacchi di altri utenti Lacus!</p>
+                </div>
+                <div class="message third-message">
+                    <h1>Guadagna!</h1>
+                    <p>Lacus ti monetizzerà per il tuo lavoro!</p>
+                </div>
+                <div class="message fourth-message">
+                    <h1>Inizia!</h1>
+                    <p>Cosa stai aspettando? Inzia subito!</p>
+                </div>
+                <div class="form-start">
+                
+                        <div class="container-start-btn">
+                            <a  class="start-btn" href="/login">
+                                PARTIAMO!
+                            </a>
+                        </div>
+                
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+$(document).ready(function() {
+
+setTimeout(function(){    
+    $('body').addClass('loaded');
+    $('h1').css('color','#222222');
+    $('#loader').remove();
+    
+}, 2000);
+
+
+});
+
+
+/*	JS FOR DESC-PAGE BG GRADIENT*/
+var colors = new Array(
+[15, 95, 129],
+[15, 86, 129],
+[15, 76, 129],
+[15, 67, 129],
+[15, 57, 129],
+[15, 48, 129]);
+
+var step = 0;
+//color table indices for:
+// current color left
+// next color left
+// current color right
+// next color right
+var colorIndices = [0,1,2,3];
+
+//transition speed
+var gradientSpeed = 0.002;
+
+function updateGradient()
+{
+
+if ( $===undefined ) return;
+
+var c0_0 = colors[colorIndices[0]];
+var c0_1 = colors[colorIndices[1]];
+var c1_0 = colors[colorIndices[2]];
+var c1_1 = colors[colorIndices[3]];
+
+var istep = 1 - step;
+var r1 = Math.round(istep * c0_0[0] + step * c0_1[0]);
+var g1 = Math.round(istep * c0_0[1] + step * c0_1[1]);
+var b1 = Math.round(istep * c0_0[2] + step * c0_1[2]);
+var color1 = "rgb("+r1+","+g1+","+b1+")";
+
+var r2 = Math.round(istep * c1_0[0] + step * c1_1[0]);
+var g2 = Math.round(istep * c1_0[1] + step * c1_1[1]);
+var b2 = Math.round(istep * c1_0[2] + step * c1_1[2]);
+var color2 = "rgb("+r2+","+g2+","+b2+")";
+
+
+$('.welcome-page-container').css({
+    background: "-webkit-gradient(linear, left top, right top, from("+color1+"), to("+color2+"))"}).css({
+    background: "-moz-linear-gradient(left, "+color1+" 0%, "+color2+" 100%)"});
+
+step += gradientSpeed;
+if ( step >= 1 )
+{
+    step %= 1;
+    colorIndices[0] = colorIndices[1];
+    colorIndices[2] = colorIndices[3];
+
+    //pick two new target color indices
+    //do not pick the same as the current one
+    colorIndices[1] = ( colorIndices[1] + Math.floor( 1 + Math.random() * (colors.length - 1))) % colors.length;
+    colorIndices[3] = ( colorIndices[3] + Math.floor( 1 + Math.random() * (colors.length - 1))) % colors.length;
+
+}
+$('.start-btn').css({
+    background: "-webkit-gradient(linear, left top, right top, from("+color1+"), to("+color2+"))"}).css({
+    background: "-moz-linear-gradient(left, "+color1+" 0%, "+color2+" 100%)"});
+
+step += gradientSpeed;
+if ( step >= 1 )
+{
+    step %= 1;
+    colorIndices[0] = colorIndices[1];
+    colorIndices[2] = colorIndices[3];
+
+    //pick two new target color indices
+    //do not pick the same as the current one
+    colorIndices[1] = ( colorIndices[1] + Math.floor( 1 + Math.random() * (colors.length - 1))) % colors.length;
+    colorIndices[3] = ( colorIndices[3] + Math.floor( 1 + Math.random() * (colors.length - 1))) % colors.length;
+
+}
+
+}
+
+
+setInterval(updateGradient,0.5);
+
+</script>

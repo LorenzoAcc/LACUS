@@ -1,0 +1,198 @@
+<div class="d-flex" id="wrapper">
+
+    <!-- Sidebar -->
+  
+    <div class="sidebar-color " id="sidebar-wrapper">
+      <a href="#" class="navbar-brand text-white d-block mx-auto text-center pt-3 ">LACUS</a>
+      <a href="#" class="text-white d-block mx-auto text-center bottom-border pb-3 mb-4 "><%= nameUser.charAt(0).toUpperCase() + nameUser.slice(1) %></a>
+  
+      <div class="list-group list-group-flush">
+        <li class="nav-item"><a href="/dashboard" class="nav-link text-white p-3 mb-2 ml-5 sidebar-link"><i
+              class="fas fa-home text-light fa-lg mr-3"></i>Dashboard</a></li>
+        <li class="nav-item"><a href="/send" class="nav-link text-white p-3 mb-2 ml-5 current"><i
+              class="fas fa-plus text-light fa-lg mr-3"></i>Spedisci</a></li>
+        <li class="nav-item"><a href="/deliver" class="nav-link text-white p-3 mb-2 ml-5 sidebar-link"><i
+              class="fas fa-shipping-fast text-light fa-lg mr-3"></i>Consegna</a></li>
+        <li class="nav-item"><a href="/logout" class="nav-link text-white p-3 mb-2 ml-5 sidebar-link-logout"><i
+              class="fas fa-sign-out-alt text-light fa-lg mr-3"></i>Logout</a></li>
+  
+      </div>
+    </div>
+  
+    <!-- /#sidebar-wrapper -->
+  
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+  
+      <nav class="navbar-color navbar navbar-expand-lg navbar-light">
+        <button class="btn btn-menu text-light" id="menu-toggle">MENU</button>
+      </nav>
+  
+  
+      <div class="container-fluid">
+        <form name="confirmrequest" action="/confirmrequest" method="POST" onsubmit="return checkFields()">
+          <div class="input-shape p-5" style="margin-top: 30px;">
+              <h3 class="input-shape-section-title mb-5">Dettagli della spedizione</h3>
+            <div class="row">
+              <div class="col-md-6">
+                  <h4 class="input-shape-section-title">Ritiro e consegna</h4>
+                  <div class="form__group field">
+                    <span class="form-group-field">Da: <%=start%></span><br>
+                    <input type="hidden" id="start" name="start" value="<%=start%>"/>
+
+                    <span class="form-group-field">A: <%=end%></span>
+                    <input type="hidden" id="end" name="end" value="<%=end%>"/>
+
+                  </div>
+              </div>
+              <div class="col-md-6">
+                <h4 class="input-shape-section-title">Destinatario</h4>
+                <div class="form__group field">
+                  <span class="form-group-field">Nome: <%=name%></span><br>
+                  <input type="hidden" id="name" name="name" value="<%=name%>"/>
+                  <span class="form-group-field">Cognome: <%=surname%></span>
+                  <input type="hidden" id="surname" name="surname" value="<%=surname%>"/>
+                  <input type="hidden" id="email" name="email" value="<%=email%>"/>
+
+                </div>
+              </div>
+            </div>
+            <div class="row pt-5">
+              <div class="col-md-6">
+                <h4 class="input-shape-section-title">Specifica spedizione</h4>
+                <div class="form__group field">
+                  <span class="form-group-field">Data ritiro: <%=date%></span><br>
+                  <input type="hidden" id="date" name="date" value="<%=date%>"/>
+                  <span class="form-group-field">Distanza: <%=distance%> km</span><br>
+                  <input type="hidden" id="distance" name="distance" value="<%=distance%>"/>
+                  <span class="form-group-field">Costo: € <%=price%></span><br>
+                  <input type="hidden" id="price" name="price" value="<%=price%>"/>
+                  <span class="form-group-field">Dimensione: <%=height%> cm x <%=width%> cm x <%=depth%> cm</span>
+                  <input type="hidden" id="height" name="height" value="<%=height%>"/>
+                  <input type="hidden" id="width" name="width" value="<%=width%>"/>
+                  <input type="hidden" id="depth" name="depth" value="<%=depth%>"/>
+                  <input type="hidden" id="type" name="type" value="<%=type%>"/>
+                  <!--
+                    NATURA DELLA SPEDIZIONE
+                    <input type="hidden" id="distance" name="distance" value="<%=distance%>"/>
+                  <strong class="form-group-field">Costo: <%=price%></strong>
+                  <input type="hidden" id="price" name="price" value="<%=price%>"/>
+                  -->
+                </div>
+              </div>
+              <div class="col-md-6">
+                <h4 class="input-shape-section-title">Dati pagamento</h4>
+                <form>
+                  <div class="row">
+                    <div class="form__group field col-8 pr-2">
+                      <input class="form__field" placeholder="Proprietario" name="owner" id="owner" type="text" required/>
+                      <label for="owner" class="form__label">Proprietario</label>
+                    </div>
+                    <div class="form__group field col-4 pl-2">
+                      <input class="form__field" placeholder="---" name="CCV" size="4" id="ccv" type="tel" required/>
+                      <label for="ccv" class="form__label">CCV</label>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form__group field col-12">
+                      <input class="form__field" placeholder="---- ---- ---- ----" size="19" name="number" id="number" type="tel" required/>
+                      <label for="number" class="form__label">Numero carta</label>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form__group field col-md-6">
+                      <select style="margin-top: 10px;" required>
+                        <option value="01">Gennaio</option>
+                        <option value="02">Febbraio </option>
+                        <option value="03">Marzo</option>
+                        <option value="04">Aprile</option>
+                        <option value="05">Maggio</option>
+                        <option value="06">Giugno</option>
+                        <option value="07">Luglio</option>
+                        <option value="08">Agosto</option>
+                        <option value="09">Settembre</option>
+                        <option value="10">Orrobre</option>
+                        <option value="11">Novembre</option>
+                        <option value="12">Dicembre</option>
+                    </select>
+                    <select required>
+                      <option value="20"> 2020</option>
+                      <option value="21"> 2021</option>
+                      <option value="22"> 2022</option>
+                      <option value="23"> 2023</option>
+                      <option value="24"> 2024</option>
+                  </select>
+                      <label for="date-credit-card" class="form__label">Scadenza</label>
+                    </div>
+                    
+                  </div>
+                  <div class="row">
+                    <div class="form__group field col-4">
+                      <img src="/img/visa.jpg" id="visa">
+                    </div>
+                    <div class="form__group field col-4">
+                      <img src="/img/mastercard.jpg" id="mastercard">
+                    </div>
+                    <div class="form__group field col-4">
+                      <img src="/img/amex.jpg" id="amex">
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+            <div class="row mt-5">
+              <div class="col">
+                <div class="alert alert-warning" role="alert">
+                  <p style="font-size: 9px;">Attenzione accettando la spedizione verrà effettuato il pagamento dell'importo dovuto e la spedizione sarà automaticamente disponibileal corriere.
+                    Inoltre sarete responsabili del contenuto del pacco. Dichiarate che la natura del pacco è in linea con le nostre politiche di sicurezza ed accettate la normativa sulla provacy?
+                  </p>
+                </div>
+              </div>
+            </div>                   
+            <div class="spedisci-btn-wrapper pt-1">
+              <button type="submit" class="btn spedisci-btn text-light" id="spedisci-btn">CONFERMA SPEZIONE</button> 
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  
+  <!-- /#page-content-wrapper -->
+  
+  </div>
+  <!-- /#wrapper -->
+  <!-- Menu Toggle Script -->
+  <script>
+    $("#menu-toggle").click(function (e) {
+      e.preventDefault();
+      $("#wrapper").toggleClass("toggled");
+    });
+
+    function checkFields(){
+      let errors = [];
+      var owner = document.forms["confirmrequest"]["owner"].value;
+      var ccv = document.forms["confirmrequest"]["ccv"].value;
+      var number = document.forms["confirmrequest"]["number"].value;
+      var ownerRegex = /[A-Z]{0,1}[a-z]{3,10}/;
+      var ccvRegex = /[0-9]{3,4}/;
+      var numberRegex1 = /[0-9]{16}/;
+      var numberRegex2 = /([0-9]{4} ){3}[0-9]{4}/;
+
+      if(owner.match(ownerRegex)[0]==owner){
+        if(ccv.match(ccvRegex)[0]==ccv){
+          if(number.match(numberRegex1)||number.match(numberRegex2)){
+            return true;
+          }else{
+            alert("Il numero della carta è nel formato errato");
+            return false;
+          } 
+        }else{
+          alert("Il CCV è nel formato errato");
+          return false;
+        }
+      }else{
+        alert("Il nome del proprietario è nel formato errato");
+        return false;
+      }
+    }
+  </script>
